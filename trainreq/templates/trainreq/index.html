@@ -1,0 +1,12 @@
+<a href="/trainreq">Home</a><br><br>
+
+{% if document_list %}
+    <ul>
+    {% for document in document_list %}
+        <li><a href="/trainreq/document/{{ document.id }}/">{{ document.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No documents are available.</p>
+{% endif %}
+<a href="/trainreq/newdocument">Add a document</a>

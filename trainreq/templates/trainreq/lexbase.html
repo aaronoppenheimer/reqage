@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}lex{% endblock %}</title>
+</head>
+
+<body>
+    <a href="/trainreq">Home</a><br><br>
+    <div id="content">
+        {% block info %}
+            {{item.description}}<br>
+        {% endblock %}
+        {% block content %}
+            Document: <a href="/trainreq/document/{{ item.document.id }}/">{{item.document}}</a><br>
+            Parents:
+                <ul>
+                {% for c in parents %}
+                    <li><a href="/trainreq/lex/{{ c.id }}/">{{ c.description }}</a></li>
+                {% endfor %} 
+                </ul>
+                
+                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}                
+                <form action="{% url 'trainreq:addparentlex' %}" method="post">
+                {% csrf_token %}
+                <label for="description">Add parent:</label>
+                <input type="text" name="newparent" id="newparent"/>
+                <input type="hidden" name="childlex" value="{{item.id}}">
+                <br><br>
+                <input type="submit" value="Do it!" />
+                </form>
+                <br>
+            Children:
+                <ul>
+                {% for c in children %}
+                    <li><a href="/trainreq/lex/{{ c.id }}/">{{ c.description }}</a></li>
+                {% endfor %} 
+                </ul>
+        {% endblock %}
+        {% block extracontent %}
+        {% endblock %}
+    </div>
+</body>
+</html>

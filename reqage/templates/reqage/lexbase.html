@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}lex{% endblock %}</title>
+</head>
+
+<body>
+    <a href="/reqage">Home</a><br><br>
+    <div id="content">
+        {% block info %}
+            {{item.content}}<br>
+        {% endblock %}
+        {% block content %}
+            Document: <a href="/reqage/lex/{{ document.id }}/">{{document.lex}}</a><br>
+            Parent:
+                <a href="/reqage/lex/{{ parent.id }}/">{{ parent.lex }}</a>
+                <br><br>
+            Children:
+                {% for thing, info in children_annotated_list %}
+                    {% if info.open %}
+                        <ul><li>
+                    {% else %}
+                        </li><li>
+                    {% endif %}
+
+                    <a href="/reqage/lex/{{thing.id}}">{{ thing.lex }}</a>
+
+                    {% for close in info.close %}
+                        </li></ul>
+                    {% endfor %}
+                {% endfor %}
+        {% endblock %}
+        {% block extracontent %}
+        {% endblock %}
+    </div>
+</body>
+</html>

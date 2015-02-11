@@ -1,0 +1,21 @@
+<a href="/reqage">Home</a><br><br>
+
+Document: {{ item.content }}
+<br>
+
+{% for thing, info in children_annotated_list %}
+    {% if info.open %}
+        <ul><li>
+    {% else %}
+        </li><li>
+    {% endif %}
+
+    <a href="/reqage/lex/{{thing.id}}">{{ thing.lex }}</a>
+
+    {% for close in info.close %}
+        </li></ul>
+    {% endfor %}
+{% endfor %}
+
+<br>
+<a href="/reqage/newlex?docid={{ document.id }}">Add a lex</a>

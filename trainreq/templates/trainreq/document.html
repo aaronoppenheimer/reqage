@@ -1,0 +1,9 @@
+<a href="/trainreq">Home</a><br><br>
+
+{{ document }}
+<ul>
+{% for lex in lex_list %}
+    <li><a href="/trainreq/lex/{{ lex.id }}/">{{ lex.description }}</a></li>
+{% endfor %}
+</ul>
+<a href="/trainreq/newlex?docid={{ document.id }}">Add a lex</a>
