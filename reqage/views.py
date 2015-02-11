@@ -26,7 +26,7 @@ def newdocument(request):
             if len(t)==0:
                 return render(request, 'reqage/newdocument.html', {'error_message':'title must have length > 0'})
             else:
-                d = models.make_new_document(title=request.POST['title'])
+                d = make_new_document(title=request.POST['title'])
                 return HttpResponseRedirect(reverse('reqage:index'))
         else:
             return render(request, 'reqage/newdocument.html')
@@ -73,25 +73,26 @@ def lex(request, lex_id):
     item_doc = docthing.get_root()
     
     return render(request, 'reqage/{0}.html'.format(lex_type), {'item': item,
+                                                                'itemdocthing': docthing,
                                                                 'document': item_doc,
                                                                 'parent': parent,
                                                                 'children_annotated_list': children})
-# 
-# def newlex(request):
-#     if request.method == 'GET':
-#         document_id = request.GET.get('docid', None)
-#         return render(request, 'trainreq/newlex.html', {'docid': document_id})
-#     else: # request.method == 'POST':
-#         if 'description' not in request.POST or request.POST['description'].strip()=='':
-#             return render(request, 'trainreq/newlex.html', {'error_message':'title must have length > 0'})
-#         d = request.POST['description'].strip()
-#         
-#         if 'docid' not in request.POST or request.POST['docid'].strip()=='':
-#             return render(request, 'trainreq/newlex.html', {'error_message':'need a document'})
-#         doc = Document.objects.get(id=request.POST['docid'].strip())
-#         
-#         models.make_new_lex(description = d, document = doc)
-#         return HttpResponseRedirect(reverse('trainreq:document', args=(doc.id,)))
+def newlex(request):
+    if request.method == 'GET':
+        document_id = request.GET.get('docid', None)
+        return render(request, 'reqage/newlex.html', {'docid': document_id})
+    else: # request.method == 'POST':
+        if 'content' not in request.POST or request.POST['content'].strip()=='':
+            return render(request, 'reqage/newlex.html', {'error_message':'title must have length > 0'})
+        d = request.POST['content'].strip()
+        
+        if 'docid' not in request.POST or request.POST['docid'].strip()=='':
+            return render(request, 'reqage/newlex.html', {'error_message':'need a document'})
+
+        doc = DocThing.objects.get(pk=request.POST['docid'].strip())
+        
+        make_new_lex(content = d, docthing = doc)
+        return HttpResponseRedirect(reverse('reqage:lex', args=(doc.id,)))
 # 
 # def addparentlex(request):
 #     if request.method == 'POST':
@@ -100,7 +101,7 @@ def lex(request, lex_id):
 #         childlex_id = int(childlex_id)
 #         childlex = Lex.objects.get_subclass(id=childlex_id)
 #         if newparent_id == '':
-#             return render(request, 'trainreq/{0}.html'.format(childlex.lex_type()), {'error_message':'must have a parent'})            
+#             return render(request, 'reqage/{0}.html'.format(childlex.lex_type()), {'error_message':'must have a parent'})            
 #         else:
 #             newparent_id = int(newparent_id)
 #             childlex.parent.add(newparent_id)

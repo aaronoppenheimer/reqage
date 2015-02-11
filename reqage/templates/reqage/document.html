@@ -1,21 +1,9 @@
-<a href="/reqage">Home</a><br><br>
+{% extends "reqage/documentlinebase.html" %}
 
-Document: {{ item.content }}
-<br>
+{% block title %}
+    Document
+{% endblock %}
 
-{% for thing, info in children_annotated_list %}
-    {% if info.open %}
-        <ul><li>
-    {% else %}
-        </li><li>
-    {% endif %}
+{% block info %}
+{% endblock %}
 
-    <a href="/reqage/lex/{{thing.id}}">{{ thing.lex }}</a>
-
-    {% for close in info.close %}
-        </li></ul>
-    {% endfor %}
-{% endfor %}
-
-<br>
-<a href="/reqage/newlex?docid={{ document.id }}">Add a lex</a>

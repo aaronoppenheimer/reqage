@@ -35,7 +35,7 @@ class Lex(TimeStampedModel):
         return self.created >= timezone.now() - datetime.timedelta(days=1)
         
 class Document(Lex):
-    """ Class to hold a Requirement """
+    """ Class to hold a Document """
     pass
 
 class Category(Lex):
@@ -61,7 +61,17 @@ class Verification(DocumentLine):
             
 def make_new_document(title):
     """ make and return a new document with the given title """
-    docthing = DocThing.add_root()
+    docthing = DocThing.add_root(type='Document')
     docthing.save()
-    lex = Lex(docthing = docthing, content = title)
+    lex = Document(docthing = docthing, content = title)
+    lex.save()
     return docthing
+    
+            
+def make_new_lex(content, docthing):
+    """ make and return a new document with the given title """
+    newdocthing = docthing.add_child(type='Requirement')
+    newdocthing.save()
+    lex = Requirement(docthing =newdocthing, content = content)
+    lex.save()
+    return newdocthing    

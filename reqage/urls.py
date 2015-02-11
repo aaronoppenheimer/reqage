@@ -7,6 +7,6 @@ urlpatterns = patterns('',
     url(r'^document/(?P<document_id>\d+)/$', views.document, name='document'),
     url(r'^lex/(?P<lex_id>\d+)/$', views.lex, name='lex'),
     url(r'^newdocument/$', views.newdocument, name='newdocument'),    
-#     url(r'^newlex/$', views.newlex, name='newlex'),    
+    url(r'^newlex/$', views.newlex, name='newlex'),    
 #     url(r'^addparentlex/$', views.addparentlex, name='addparentlex'),    
 )
