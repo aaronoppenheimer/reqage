@@ -33,7 +33,18 @@
         {% block extracontent %}
         {% endblock %}
         {% block addlex %}
-            <a href="/reqage/newlex?docid={{ itemdocthing.id }}">Add a lex</a>
+            <br><br>
+            Add one:
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+            <form action="{% url 'reqage:newlex' %}" method="post">
+            {% csrf_token %}
+            <label for="description">Content:</label>
+            <input type="text" name="content" id="content"/>
+            <input type="text" name="docid" id="docid" value="{{itemdocthing.id}}">
+            <br><br>
+            <input type="submit" value="Make it!" />
+            </form>
         {% endblock %}
     </div>
 </body>
