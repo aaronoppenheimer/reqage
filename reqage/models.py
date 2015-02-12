@@ -8,7 +8,7 @@ class Lex(TimeStampedModel):
     """ class to hold a 'lex' which is just a single line in a document: a requirement, """
     """ a verification, etc. """
 
-    reqtype = models.CharField(max_length=50, default=None)
+    lextype = models.CharField(max_length=50, default=None)
     content = models.CharField(max_length=500)
     created_by = models.ForeignKey('auth.User', related_name='lexs', null=True)
 
@@ -32,7 +32,7 @@ class Lex(TimeStampedModel):
     # own views
     def save(self, *args, **kwargs):
         if self.pk==None:
-            self.reqtype=self.__class__.__name__
+            self.lextype=self.__class__.__name__
         super(Lex, self).save(*args, **kwargs)
 
     # call this when creating a new lex to create a node
@@ -63,14 +63,13 @@ class DocumentLine(Lex):
     class Meta:
         abstract = True
 
-
 class Requirement(DocumentLine):
     """ Class to hold a Requirement """
     pass
 
 class Verification(DocumentLine):
     """ Class to hold a Verification Test """
-    pass
+    complete = models.BooleanField(default=False)
     
     
 ###

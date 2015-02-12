@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, verbose_name='created', editable=False)),
                 ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, verbose_name='modified', editable=False)),
-                ('reqtype', models.CharField(default=None, max_length=50)),
+                ('lextype', models.CharField(default=None, max_length=50)),
                 ('content', models.CharField(max_length=500)),
             ],
             options={
@@ -76,6 +76,7 @@ class Migration(migrations.Migration):
             name='Verification',
             fields=[
                 ('lex_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='reqage.Lex')),
+                ('complete', models.BooleanField(default=False)),
                 ('associated', models.ManyToManyField(related_name='associated_rel_+', to='reqage.Verification')),
             ],
             options={
