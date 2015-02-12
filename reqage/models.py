@@ -24,6 +24,7 @@ class Lex(TimeStampedModel):
 
     docthing = models.OneToOneField(DocThing, primary_key=True)
     content = models.CharField(max_length=500)
+    created_by = models.ForeignKey('auth.User', related_name='lexs', null=True)
 
     def __unicode__(self):
         return self.content[:20] + (self.content[20:] and '...')
@@ -58,20 +59,21 @@ class Verification(DocumentLine):
     """ Class to hold a Verification Test """
     pass
 
-            
 def make_new_document(title):
     """ make and return a new document with the given title """
+    print('DEBUG: making new document >{0}<'.format(title))
     docthing = DocThing.add_root(type='Document')
     docthing.save()
     lex = Document(docthing = docthing, content = title)
     lex.save()
-    return docthing
+    return lex
     
             
-def make_new_lex(content, docthing):
+def make_new_requirement(content, docthing):
     """ make and return a new document with the given title """
+    print('DEBUG: making new requrirement >{0}< of child {1}'.format(content, docthing.lex.content))
     newdocthing = docthing.add_child(type='Requirement')
     newdocthing.save()
     lex = Requirement(docthing =newdocthing, content = content)
     lex.save()
-    return newdocthing    
+    return lex    
