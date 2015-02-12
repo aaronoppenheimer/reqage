@@ -19,8 +19,11 @@ class LexSerializer(serializers.ModelSerializer):
     # we need a special create override so we make the proper root DocThing object
     def create(self, validated_data):
         # save the parent's pk
-        pnum=validated_data.get('parent', '')
-        p = Lex.objects.get(pk=pnum)
+        pnum=validated_data.get('parent', 0)
+        if pnum>0:
+            p = Lex.objects.get(pk=pnum)
+        else:
+            p = None
 
         # figure out what the lextype is and get the class
         lextype=validated_data.get('lextype')
@@ -30,8 +33,10 @@ class LexSerializer(serializers.ModelSerializer):
         validated_data.pop('parent', None)
         d=theclass.objects.create(**validated_data)
 
-        # now use the parent key to place the Lex into the document hierarchy
-        Lex.create_docthing(d,parent=p)
+        if p is not None:
+            # move the object's docthing to the proper parent
+            d.docthing.move(p.docthing,'last-child')
+
         return d
 
 class DocumentLineSerializer(LexSerializer):
@@ -49,18 +54,10 @@ class VerificationSerializer(DocumentLineSerializer):
         model = Verification
         fields = ('pk', 'lextype', 'content', 'parent', 'created_by', 'associated', 'complete')
 
-
 class DocumentSerializer(LexSerializer):
     class Meta:
         model = Document
-        fields = ('pk', 'content', 'created_by')
-
-    # we need a special create override so we make the proper root DocThing object
-    def create(self, validated_data):
-        d=Document.objects.create(**validated_data)
-        Lex.create_docthing(d,parent=None)
-        return d
-
+        fields = ('pk', 'lextype', 'content', 'created_by')
 
 class UserSerializer(serializers.ModelSerializer):
     lexs = serializers.PrimaryKeyRelatedField(many=True, queryset=Lex.objects.all())

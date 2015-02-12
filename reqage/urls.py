@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     url(r'^document/(?P<pk>[0-9]+)/$', views.DocumentDetail.as_view()),
     url(r'^lex/$', views.LexList.as_view()),
     url(r'^lex/(?P<pk>[0-9]+)/$', views.LexDetail.as_view()),
+    url(r'^requirement/(?P<pk>[0-9]+)/$', views.RequirementDetail.as_view()),
+    url(r'^verification/(?P<pk>[0-9]+)/$', views.VerificationDetail.as_view()),
 
 
 #     url(r'^$', views.index, name='index'),

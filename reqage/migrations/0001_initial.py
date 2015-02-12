@@ -29,6 +29,16 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='DocumentLine',
+            fields=[
+                ('lex_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='reqage.Lex')),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=('reqage.lex',),
+        ),
+        migrations.CreateModel(
             name='Document',
             fields=[
                 ('lex_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='reqage.Lex')),
@@ -64,30 +74,34 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Requirement',
             fields=[
-                ('lex_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='reqage.Lex')),
-                ('associated', models.ManyToManyField(related_name='associated_rel_+', to='reqage.Requirement')),
+                ('documentline_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='reqage.DocumentLine')),
             ],
             options={
                 'abstract': False,
             },
-            bases=('reqage.lex',),
+            bases=('reqage.documentline',),
         ),
         migrations.CreateModel(
             name='Verification',
             fields=[
-                ('lex_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='reqage.Lex')),
+                ('documentline_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='reqage.DocumentLine')),
                 ('complete', models.BooleanField(default=False)),
-                ('associated', models.ManyToManyField(related_name='associated_rel_+', to='reqage.Verification')),
             ],
             options={
                 'abstract': False,
             },
-            bases=('reqage.lex',),
+            bases=('reqage.documentline',),
         ),
         migrations.AddField(
             model_name='lex',
             name='created_by',
             field=models.ForeignKey(related_name='lexs', to=settings.AUTH_USER_MODEL, null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='documentline',
+            name='associated',
+            field=models.ManyToManyField(related_name='associated_rel_+', to='reqage.DocumentLine'),
             preserve_default=True,
         ),
     ]

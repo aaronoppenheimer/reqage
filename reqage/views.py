@@ -33,3 +33,13 @@ class DocumentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    
+class RequirementDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Requirement.objects.all()
+    serializer_class = RequirementSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)    
+    
+class VerificationDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Verification.objects.all()
+    serializer_class = VerificationSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

@@ -29,23 +29,18 @@ class Lex(TimeStampedModel):
         return self.created >= timezone.now() - datetime.timedelta(days=1)
         
     # set my own type - this lets us keep a general idea of a 'lex' but give subclasses their
-    # own views
+    # own views. Also, make a 'docthing' for me, which is a root node.
     def save(self, *args, **kwargs):
+        new = False
         if self.pk==None:
             self.lextype=self.__class__.__name__
+            new = True
+            
         super(Lex, self).save(*args, **kwargs)
-
-    # call this when creating a new lex to create a node
-    # pass in a lex to make it the parent
-    @staticmethod
-    def create_docthing(instance, parent=None):
-        if parent is None:
-            docthing = DocThing.add_root(lex=instance)
+        
+        if new:
+            docthing = DocThing.add_root(lex=self)
             docthing.save()
-        else:
-            p = parent.docthing
-            p.add_child(lex=instance)
-            p.save()
     
 class Document(Lex):
     """ Class to hold a Document """
@@ -60,9 +55,6 @@ class DocumentLine(Lex):
     """ Class to represent a requirement, verification test, todo - anything in document content """
     associated = models.ManyToManyField('self')
     
-    class Meta:
-        abstract = True
-
 class Requirement(DocumentLine):
     """ Class to hold a Requirement """
     pass
