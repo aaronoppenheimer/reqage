@@ -6,17 +6,19 @@ from reqage.models import *
 
 class DocThingAdmin(TreeAdmin):
     form = movenodeform_factory(DocThing)
-    list_display = ['type','lex','id']
+    list_display = ['lex']
 
 admin.site.register(DocThing,DocThingAdmin)
 
 
-
-
 class LexAdmin(admin.ModelAdmin):
-    list_display = ['content','created','modified']
-    readonly_fields = ('created', 'modified')
+    list_display = ['content','reqtype', 'parent', 'created','modified','pk', 'created_by']
+    readonly_fields = ('reqtype', 'created', 'modified', 'pk')
         
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ['content','created','modified','pk']
+    readonly_fields = ('created', 'modified', 'pk')
+
 class ReqAdmin(admin.ModelAdmin):
     list_display = ['content','created','modified']
     readonly_fields = ('created', 'modified')
@@ -26,5 +28,6 @@ class VerAdmin(admin.ModelAdmin):
     readonly_fields = ('created', 'modified')
 
 admin.site.register(Lex, LexAdmin)
+admin.site.register(Document, DocumentAdmin)
 admin.site.register(Requirement, ReqAdmin)
 admin.site.register(Verification, VerAdmin)
