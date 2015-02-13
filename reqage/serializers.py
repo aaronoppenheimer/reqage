@@ -39,6 +39,20 @@ class LexSerializer(serializers.ModelSerializer):
 
         return d
 
+    # if we're updating the model, see if the parent has changed - if so, we need to move the
+    # docthing that represents us in the database
+    def update(self, instance, validated_data):
+        # get the new parent's pk
+        pnum=validated_data.get('parent', 0)
+        curparent=instance.parentlex()
+        if pnum:
+            if curparent is None or pnum != curparent.pk:
+                # move this object to the new parent
+                newparent = Lex.objects.get(pk=pnum)
+                instance.docthing.move(newparent.docthing,'last-child')
+                print 'moved child!'
+        return super(LexSerializer, self).update(instance, validated_data)
+
 class DocumentLineSerializer(LexSerializer):
     class Meta:
         model = DocumentLine

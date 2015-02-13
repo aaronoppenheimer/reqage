@@ -12,12 +12,19 @@ class Lex(TimeStampedModel):
     content = models.CharField(max_length=500)
     created_by = models.ForeignKey('auth.User', related_name='lexs', null=True)
 
-    def parent(self):
+    def parentlex(self):
         p = self.docthing.get_parent()
         if p is None:
             return None
         else:
-            return p.lex.pk
+            return p.lex
+    
+    def parent(self):
+        p = self.parentlex()
+        if p is None:
+            return None
+        else:
+            return p.pk
             
     def __unicode__(self):
         return self.content[:20] + (self.content[20:] and '...')
