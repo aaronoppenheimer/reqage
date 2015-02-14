@@ -1,0 +1,8 @@
+{{object.content}}<br>
+{{object.parent}}<br>
+children:
+<ul>
+{% for c in object.children %}
+<li>{{c.id}}</li>
+{% endfor %}
+</ul>

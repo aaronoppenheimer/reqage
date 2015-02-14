@@ -26,6 +26,10 @@ class Lex(TimeStampedModel):
         else:
             return p.pk
             
+    def children(self):
+        p = self.docthing.get_children()
+        return [dt.lex for dt in p]
+            
     def __unicode__(self):
         return self.content[:20] + (self.content[20:] and '...')
         

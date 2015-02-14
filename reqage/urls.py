@@ -3,14 +3,19 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from reqage import views
 
 urlpatterns = patterns('',
-    url(r'^users/$', views.UserList.as_view()),
-    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
-    url(r'^document/$', views.DocumentList.as_view()),
-    url(r'^document/(?P<pk>[0-9]+)/$', views.DocumentDetail.as_view()),
-    url(r'^lex/$', views.LexList.as_view()),
-    url(r'^lex/(?P<pk>[0-9]+)/$', views.LexDetail.as_view()),
-    url(r'^requirement/(?P<pk>[0-9]+)/$', views.RequirementDetail.as_view()),
-    url(r'^verification/(?P<pk>[0-9]+)/$', views.VerificationDetail.as_view()),
+    url(r'^$', views.HomePageView.as_view(), name='home'),
+# rest api
+    url(r'^api/users/$', views.UserList.as_view()),
+    url(r'^api/users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
+    url(r'^api/document/$', views.DocumentList.as_view()),
+    url(r'^api/document/(?P<pk>[0-9]+)/$', views.DocumentDetail.as_view()),
+    url(r'^api/lex/$', views.LexList.as_view()),
+    url(r'^api/lex/(?P<pk>[0-9]+)/$', views.LexDetail.as_view()),
+    url(r'^api/requirement/(?P<pk>[0-9]+)/$', views.RequirementDetail.as_view()),
+    url(r'^api/verification/(?P<pk>[0-9]+)/$', views.VerificationDetail.as_view()),
+
+# function api
+    url(r'^lexdetail/(?P<pk>[0-9]+)/$', views.LexDetailView.as_view()),
 
 
 #     url(r'^$', views.index, name='index'),

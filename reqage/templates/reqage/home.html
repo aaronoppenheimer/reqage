@@ -1,0 +1,88 @@
+{% extends 'reqage/reqagebase.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block menu %}
+    {% include "reqage/menu.html" %}
+{% endblock menu %}
+
+{% block body %}
+<div class="ui grid">
+    <div class="two wide column"></div>
+    <div class="twelve wide column" id="content">
+
+
+    </div> <!-- column -->
+    <div class="two wide column"></div>
+</div>  
+{% endblock %}
+
+{% block scripts %}
+
+function updatecontent(lex) {
+    $("#content").load("/lexdetail/"+lex, function(responseTxt, statusTxt, xhr){
+        if(statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+    });
+};
+
+$( document ).ready(function() {
+    updatecontent(7);
+});
+{% endblock scripts%}
+
+{% block test %}
+        
+        <h1 class="ui header">All Documents</h1>
+        <div class="ui segment">
+            <div class="ui segment">
+                <div class="ui top attached label">Requirements Documents</div>
+                <div class="ui list">
+                    <div class="item">
+                        <i class="file text outline icon"></i>
+                        <div class="content">
+                            <a class="header">MRD</a>
+                            <div class="description">
+                                Last Update 2014-02-13 12:00pm
+                            </div>
+                        </div>
+                    </div> <!-- item -->
+                    <div class="item">
+                        <i class="file text outline icon"></i>
+                        <div class="content">
+                            <a class="header">PRD</a>
+                            <div class="description">
+                                Last Update 2014-02-13 12:00pm
+                            </div>
+                        </div>
+                    </div> <!-- item -->
+                </div> <!-- list -->
+            </div> <!-- segment -->
+
+            <div class="ui segment">
+                <div class="ui top attached label">Verification Documents</div>
+                <div class="ui list">
+                    <div class="item">
+                        <i class="file text outline icon"></i>
+                        <div class="content">
+                            <a class="header">Hardware Verification</a>
+                            <div class="description">
+                                Last Update 2014-02-13 12:00pm
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="file text outline icon"></i>
+                        <div class="content">
+                            <a class="header">Firmware Verification</a>
+                            <div class="description">
+                                Last Update 2014-02-13 12:00pm
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- list -->
+            </div> <!-- segment -->
+        </div> <!-- segment -->            
+{% endblock %}            

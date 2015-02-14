@@ -5,6 +5,25 @@ from rest_framework import generics
 from rest_framework import permissions
 from django.contrib.auth.models import User
 from serializers import UserSerializer
+from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
+
+###
+#
+# Template views
+#
+###
+class HomePageView(TemplateView):
+    template_name = "reqage/home.html"
+
+class LexDetailView(DetailView):
+    model = Lex
+    
+###
+#
+# REST UI views
+#
+###
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
