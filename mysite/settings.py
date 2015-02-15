@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'treebeard',
     'rest_framework',
     'reqage',
+    'trainreq'
 )
 
 MIDDLEWARE_CLASSES = (

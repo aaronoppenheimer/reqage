@@ -12,9 +12,13 @@ admin.site.register(DocThing,DocThingAdmin)
 
 
 class LexAdmin(admin.ModelAdmin):
-    list_display = ['content','lextype', 'parent', 'created','modified','pk', 'created_by']
+    list_display = ['content','lextype', 'parent_info', 'created','modified','pk', 'created_by']
     readonly_fields = ('lextype', 'created', 'modified', 'pk')
         
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ['content','created','modified','pk']
+    readonly_fields = ('created', 'modified', 'pk')
+
 class DocumentAdmin(admin.ModelAdmin):
     list_display = ['content','created','modified','pk']
     readonly_fields = ('created', 'modified', 'pk')
@@ -28,6 +32,7 @@ class VerificationAdmin(admin.ModelAdmin):
     readonly_fields = ('created', 'modified')
 
 admin.site.register(Lex, LexAdmin)
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(Document, DocumentAdmin)
 admin.site.register(Requirement, RequirementAdmin)
 admin.site.register(Verification, VerificationAdmin)

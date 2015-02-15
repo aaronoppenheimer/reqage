@@ -11,10 +11,11 @@ from django.contrib.auth.models import User
 
 class LexSerializer(serializers.ModelSerializer):
     created_by = serializers.ReadOnlyField(source='created_by.username')
-    parent = serializers.IntegerField()
+#     children = serializers.ListField()
+#     parent = serializers.IntegerField()
     class Meta:
         model = Lex
-        fields = ('pk', 'lextype', 'content', 'parent', 'created_by')
+        fields = ('pk', 'lextype', 'content', 'parent_info', 'children_info', 'created_by')
 
     # we need a special create override so we make the proper root DocThing object
     def create(self, validated_data):

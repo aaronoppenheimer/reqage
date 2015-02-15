@@ -12,23 +12,30 @@ class Lex(TimeStampedModel):
     content = models.CharField(max_length=500)
     created_by = models.ForeignKey('auth.User', related_name='lexs', null=True)
 
-    def parentlex(self):
+    def parent_lex(self):
         p = self.docthing.get_parent()
         if p is None:
             return None
         else:
             return p.lex
-    
-    def parent(self):
-        p = self.parentlex()
+            
+    def parent_info(self):
+        p = self.parent_lex()
         if p is None:
             return None
         else:
-            return p.pk
-            
-    def children(self):
+            return {'id': p.pk, 'content':p.content}
+    
+    def children_ids(self):
         p = self.docthing.get_children()
-        return [dt.lex for dt in p]
+        return [dt.lex.pk for dt in p]
+
+    def children_info(self):
+        children_list = self.children_ids()
+        newlist=[]
+        for c in children_list:
+            newlist.append({'id': c, 'content': Lex.objects.get(pk=c).content })
+        return newlist
             
     def __unicode__(self):
         return self.content[:20] + (self.content[20:] and '...')
@@ -53,6 +60,10 @@ class Lex(TimeStampedModel):
             docthing = DocThing.add_root(lex=self)
             docthing.save()
     
+class Project(Lex):
+    """ Class to hold a Project """
+    pass
+
 class Document(Lex):
     """ Class to hold a Document """
     pass
