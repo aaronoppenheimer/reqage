@@ -1,4 +1,4 @@
-var app = angular.module('trainreqApp', ['ngCookies'])
+var app = angular.module('trainreqApp', ['ngRoute', 'ngCookies'])
 
 app.config(['$httpProvider', function($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
