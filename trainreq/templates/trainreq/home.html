@@ -44,8 +44,30 @@
                     Add...
                 </div>
                 <div class="content">
-                    Type<br>
-                    Content
+                    <form ng-controller="addLexCtrl as form"
+                          name="myForm" 
+                          ng-submit="form.submit(myForm.$valid, data)">
+                        <div class="ui labeled input">
+                            <div class="ui label">type:</div>
+                            <input type="text"
+                                   name="type"
+                                   minlength="5"
+                                   maxlength="15"
+                                   ng-model="data.type"
+                                   required />
+                        </div> <!-- labeled input -->
+                        <div class="ui labeled input">
+                            <div class="ui label">content:</div>
+                            <input type="text"
+                                   name="content"
+                                   minlength="1"
+                                   maxlength="500"
+                                   ng-model="data.content"
+                                   required />
+                            <div ng-if="myForm.content.$invalid">There is an error with the field</div>
+                        </div> <!-- labeled input -->
+                        <input type="submit" value="Submit" class="ui primary button">                        
+                    </form>
                 </div>
             </div>
         </div> <!-- segment -->
@@ -58,6 +80,7 @@
 {% endverbatim %}
 <script src="{% static 'trainreq/js/trainreqApp.js' %}"></script>
 <script src="{% static 'trainreq/js/lexCtrl.js' %}"></script>
+<script src="{% static 'trainreq/js/addLexCtrl.js' %}"></script>
 <script>
     $('.ui.accordion').accordion();
 </script>
