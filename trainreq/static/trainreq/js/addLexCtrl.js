@@ -10,8 +10,10 @@ app.controller('addLexCtrl', function($scope,$http,CurrentLex) {
     data.parent=CurrentLex.lex.pk;
 
     //submit the data to the server
-    $http.post('/reqage/api/lex/', data);
-    CurrentLex.setLex(data.parent);
+    $http.post('/reqage/api/lex/', data)
+    .success(function(response) {
+        CurrentLex.setLex(data.parent);
+    });
     $scope.data={};
   }
 });

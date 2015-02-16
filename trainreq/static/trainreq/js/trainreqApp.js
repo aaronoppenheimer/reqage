@@ -14,7 +14,6 @@ app.service('CurrentLex', function ($http) {
     that.lex = {content:'hiya woo',pk:0};
         
     this.setLex = function(l) {
-        that.lex={content:'booboo',pk:1};
         $http.get("/reqage/api/lex/"+l)
             .success(function(response) {
                 that.lex = response;
