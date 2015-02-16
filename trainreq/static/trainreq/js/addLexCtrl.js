@@ -3,12 +3,15 @@
 // ao 2015-02-15
 
 
-app.controller('addLexCtrl', function($http) {
+app.controller('addLexCtrl', function($scope,$http,CurrentLex) {
   this.submit = function(isValid, data) {
     if(!isValid) return;
 
-    alert("woo!");
+    data.parent=CurrentLex.getLex();
+
     //submit the data to the server
-//     $http.post('/api/submit', data);
+    $http.post('/reqage/api/lex/', data);
+    $scope.data={}
+    
   }
 });

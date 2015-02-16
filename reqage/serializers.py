@@ -12,22 +12,28 @@ from django.contrib.auth.models import User
 class LexSerializer(serializers.ModelSerializer):
     created_by = serializers.ReadOnlyField(source='created_by.username')
 #     children = serializers.ListField()
-#     parent = serializers.IntegerField()
+    parent = serializers.IntegerField(write_only=True)
+
     class Meta:
         model = Lex
-        fields = ('pk', 'lextype', 'content', 'parent_info', 'children_info', 'created_by')
+        fields = ('pk', 'lextype', 'content', 'parent', 'parent_info', 'children_info', 'created_by')
 
     # we need a special create override so we make the proper root DocThing object
     def create(self, validated_data):
+    
         # save the parent's pk
         pnum=validated_data.get('parent', 0)
+
+        print('parent is >{0}<'.format(validated_data))
+
         if pnum>0:
             p = Lex.objects.get(pk=pnum)
         else:
             p = None
 
         # figure out what the lextype is and get the class
-        lextype=validated_data.get('lextype')
+        lextype=validated_data.get('lextype') # TODO - make sure it's a valid type
+        
         theclass=getattr(reqage.models,lextype)
 
         # create the new object (but remove the parent's key because it's not meaningful)

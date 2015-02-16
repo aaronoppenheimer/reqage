@@ -2,7 +2,7 @@
 //
 // ao 2015-02-15
 
-app.controller("lexCtrl", function($scope,$http) {
+app.controller("lexCtrl", function($scope,$http,CurrentLex) {
     $scope.id = 0;
     $scope.lex = '';
     
@@ -10,6 +10,7 @@ app.controller("lexCtrl", function($scope,$http) {
         $scope.id = newlexid;
         $http.get("/reqage/api/lex/"+$scope.id)
         .success(function(response) {
+            CurrentLex.setLex(response.pk)
             $scope.lex = response;
         });
     }
