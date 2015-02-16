@@ -23,59 +23,58 @@
 
 <body>
 {% verbatim %}
-<div ng-app="myApp" ng-controller="lexCtrl">
 
-<div class="ui grid">
-    <div class="two wide column"></div>
-    <div class="twelve wide column" id="content">
-        <h2>{{ lex.content }}</h2>
-        ID: {{ lex.pk }}, Type: {{ lex.lextype }}<br>
-        Parent: <a href='#' ng-click='change_lex(lex.parent_info.id)'>{{ lex.parent_info.content }}</a><br>
-        Created by: {{lex.created_by}}
-        <div class="ui segment">
-            <div class="ui top attached label">Contents:</div>
-            <div class="ui list">
-                <div class="item" ng-repeat="l in lex.children_info">
-                    <a ng-href='#here' ng-click='change_lex(l.id)' >{{ l.content }}</a>
-                </div> <!-- list item -->
-            </div> <!-- ui list -->
-            <div class="ui accordion">
-                <div class="title">
-                    <i class="dropdown icon"></i>
-                    Add...
+<div ng-app="trainreqApp">
+    <div class="ui grid" ng-controller="lexCtrl" ng-init="lex = curLex.lex">
+        <div class="two wide column"></div>
+        <div class="twelve wide column" id="content">
+            <h2>1: {{ curLex.lex.content }}</h2>
+            ID: {{ curLex.lex.pk }}, Type: {{ curLex.lex.lextype }}<br>
+            Parent: <a href='#' ng-click='changeLex(curLex.lex.parent_info.id)'>{{ curLex.lex.parent_info.content }}</a><br>
+            Created by: {{curLex.lex.created_by}}
+            <div class="ui segment">
+                <div class="ui top attached label">Contents:</div>
+                <div class="ui list">
+                    <div class="item" ng-repeat="l in curLex.lex.children_info">
+                        <a ng-href='#here' ng-click='changeLex(l.id)' >{{ l.content }}</a>
+                    </div> <!-- list item -->
+                </div> <!-- ui list -->
+                <div class="ui accordion">
+                    <div class="title">
+                        <i class="dropdown icon"></i>
+                        Add...
+                    </div>
+                    <div class="content">
+                        <form ng-controller="addLexCtrl as form"
+                              name="myForm" 
+                              ng-submit="form.submit(myForm.$valid, data)">
+                            <div class="ui labeled input">
+                                <div class="ui label">type:</div>
+                                <input type="text"
+                                       name="type"
+                                       minlength="1"
+                                       maxlength="15"
+                                       ng-model="data.lextype"
+                                       required />
+                            </div> <!-- labeled input -->
+                            <div class="ui labeled input">
+                                <div class="ui label">content:</div>
+                                <input type="text"
+                                       name="content"
+                                       minlength="1"
+                                       maxlength="500"
+                                       ng-model="data.content"
+                                       required />
+                            </div> <!-- labeled input -->
+                            <input type="submit" value="Submit" class="ui primary button">                        
+                        </form>
+                    </div>
                 </div>
-                <div class="content">
-                    <form ng-controller="addLexCtrl as form"
-                          name="myForm" 
-                          ng-submit="form.submit(myForm.$valid, data)">
-                        <div class="ui labeled input">
-                            <div class="ui label">type:</div>
-                            <input type="text"
-                                   name="type"
-                                   minlength="1"
-                                   maxlength="15"
-                                   ng-model="data.lextype"
-                                   required />
-                        </div> <!-- labeled input -->
-                        <div class="ui labeled input">
-                            <div class="ui label">content:</div>
-                            <input type="text"
-                                   name="content"
-                                   minlength="1"
-                                   maxlength="500"
-                                   ng-model="data.content"
-                                   required />
-                        </div> <!-- labeled input -->
-                        <input type="submit" value="Submit" class="ui primary button">                        
-                    </form>
-                </div>
-            </div>
-        </div> <!-- segment -->
-    </div> <!-- column -->
-    <div class="two wide column"></div>
-</div>  
-        
-</div>
+            </div> <!-- segment -->
+        </div> <!-- column -->
+        <div class="two wide column"></div>
+    </div>          
+</div> <!-- ng-app -->
 
 {% endverbatim %}
 <script src="{% static 'trainreq/js/trainreqApp.js' %}"></script>

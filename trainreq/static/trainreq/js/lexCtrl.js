@@ -2,22 +2,18 @@
 //
 // ao 2015-02-15
 
-app.controller("lexCtrl", function($scope,$http,CurrentLex) {
-    $scope.id = 0;
-    $scope.lex = '';
+app.controller("lexCtrl", function($scope,CurrentLex) {
     
-    $scope.change_lex = function(newlexid) {
-        $scope.id = newlexid;
-        $http.get("/reqage/api/lex/"+$scope.id)
-        .success(function(response) {
-            CurrentLex.setLex(response.pk)
-            $scope.lex = response;
-        });
-    }
+    $scope.curLex = CurrentLex;
     
+    $scope.changeLex = function(id) {
+        CurrentLex.setLex(id);
+    };
+
+
     $scope.init = function() {
-        $scope.change_lex(14); // TOP LEVEL NODE
-    }
+       CurrentLex.setLex(14); // TOP LEVEL NODE
+    };
     
     $scope.init();
 });

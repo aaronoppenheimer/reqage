@@ -7,11 +7,11 @@ app.controller('addLexCtrl', function($scope,$http,CurrentLex) {
   this.submit = function(isValid, data) {
     if(!isValid) return;
 
-    data.parent=CurrentLex.getLex();
+    data.parent=CurrentLex.lex.pk;
 
     //submit the data to the server
     $http.post('/reqage/api/lex/', data);
-    $scope.data={}
-    
+    CurrentLex.setLex(data.parent);
+    $scope.data={};
   }
 });
