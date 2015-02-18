@@ -1,0 +1,23 @@
+<h4>{{ myLex.content }}</h4>
+ID: {{ myLex.pk }}, Type: {{ myLex.lextype }}<br>
+Parent: {{ myLex.parent_info.content }}<a href='#' ng-click='retarget(myLex.parent_info.id)' ng-show='myLex.parent_info.content'><i class="crosshairs icon"></i></a><br>
+Created by: {{myLex.created_by}}<br>
+<div class="ui list">
+    <div class="item" ng-repeat="myChildLex in myLex.children_info" ng-controller="lexChildCtrl as childCtrl" ng-init="lexId=myChildLex.id">
+        <div ng-if="!isOpen">
+            <a href="#" ng-click="toggleOpen()"><i class="caret right icon"></i></a>
+            {{ myChildLex.content }}<a ng-href='#here' ng-click='retarget(myChildLex.id)' ><i class="crosshairs icon"></i></a>
+        </div>
+        <div ng-if="isOpen">
+            <div class="ui segment">
+                <div class="ui top attached label"><a href="#" ng-click="toggleOpen()"><i class="caret down icon"></i></a>
+                </div>
+                <p>
+                {{ myChildLex.content }}<a ng-href='#' ng-click='changeLex(myChildLex.id)'><i class="crosshairs icon"></i></a>
+                <div ng-controller="lexCtrl">
+                    <div ng-include="'/static/trainreq/partials/lex.html'"></div>
+                </div> <!-- lexCtrl ng-controller -->
+            </div> <!-- segment -->
+        </div>
+    </div> <!-- list item -->
+</div> <!-- ui list -->
