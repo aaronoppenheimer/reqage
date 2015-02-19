@@ -42,9 +42,9 @@
     <div class="ui grid">
         <div class="two wide column"></div>
         <div class="twelve wide column" id="content">
-            <div ng-controller="lexCtrl">
+            <div ng-controller="lexCtrl" ng-init="setTop(14)">
                 <div ng-include="'/static/trainreq/partials/lex.html'"></div>
-            </div> <!-- lexCtrl controller -->
+            </div>
         </div> <!-- column -->
         <div class="two wide column"></div>
     </div>          

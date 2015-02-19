@@ -1,20 +1,50 @@
-<h4>{{ myLex.content }}<a ng-href='#here' ng-click='retarget(myChildLex.id)' ><i class="crosshairs icon"></i></a></h4>
-ID: {{ myLex.pk }}, Type: {{ myLex.lextype }}<br>
-Parent: {{ myLex.parent_info.content }}<a href='#' ng-click='retarget(myLex.parent_info.id)' ng-show='myLex.parent_info.content'><i class="crosshairs icon"></i></a><br>
-Created by: {{myLex.created_by}}<br>
-<div class="ui list">
-    <div class="item" ng-repeat="myChildLex in myLex.children_info" ng-controller="lexChildCtrl as childCtrl" ng-init="lexId=myChildLex.id">
-        <div ng-if="!isOpen">
-            <a href="#" ng-click="toggleOpen()"><i class="caret right icon"></i></a>
-            {{ myChildLex.content }}<a ng-href='#here' ng-click='retarget(myChildLex.id)' ><i class="crosshairs icon"></i></a>
+<div class="ui grid">
+    <div class="right aligned one wide column" style="padding-right:0;">
+        <span ng-if="myLex.children_info.length">
+            <span ng-if="!isOpen">
+                <a href="#" ng-click="toggleOpen()"><i class="caret right icon"></i></a>
+            </span>
+            <span ng-if="isOpen">
+                <a href="#" ng-click="toggleOpen()"><i class="caret down icon"></i></a>
+            </span>
+        </span>
+    </div> <!-- icon column -->
+    <div class="left aligned fifteen wide column" style="padding-left:0;">
+        {{ myLex.content }}
+        <span ng-if="!showingInfo">
+            <a ng-href='#here' ng-click='toggleInfo()' ><i class="info circle icon"></i></a>
+        </span>
+        <div class="ui segment "ng-if="showingInfo">
+            <a ng-href='#here' ng-click='retarget(myLex.pk)' ><i class="crosshairs icon"></i></a>
+            <span ng-if="myLex.parent_info">
+                <a ng-href='#here' ng-click='retarget(myLex.parent_info.id)'><i class="level up icon"></i></a>
+            </span>
         </div>
-        <div ng-if="isOpen">
-            <div class="ui segment">
-                <a href="#" ng-click="toggleOpen()"><i class="remove circle icon"></i></a>
-                <div ng-controller="lexCtrl">
+        <div class="ui list" ng-if="isOpen">
+            <div class="item" ng-repeat="myChildLex in myLex.children_info" ng-controller="lexCtrl" ng-init="fetchLex(myChildLex.id)">
+                <div ng-include="'/static/trainreq/partials/lex.html'"></div>
+            </div> <!-- list item -->
+        </div> <!-- ui list -->
+    </div> <!-- content column -->
+</div> <!-- grid -->
+
+
+<div ng-if='false'>
+    ID: {{ myLex.pk }}, Type: {{ myLex.lextype }}<br>
+    Parent: {{ myLex.parent_info.content }}<a href='#' ng-click='retarget(myLex.parent_info.id)' ng-show='myLex.parent_info.content'><i class="crosshairs icon"></i></a><br>
+    Created by: {{myLex.created_by}}<br>
+    <div class="ui list">
+        <div class="item" ng-repeat="myChildLex in myLex.children_info" ng-controller="lexChildCtrl as childCtrl" ng-init="lexId=myChildLex.id">
+            <div ng-if="!isOpen">
+                <a href="#" ng-click="toggleOpen()"><i class="caret right icon"></i></a>
+                {{ myChildLex.content }}<a ng-href='#here' ng-click='retarget(myChildLex.id)' ><i class="crosshairs icon"></i></a>
+            </div>
+            <div ng-if="isOpen">
+                <div class="ui segment">
+                    <a href="#" ng-click="toggleOpen()"><i class="remove circle icon"></i></a>
                     <div ng-include="'/static/trainreq/partials/lex.html'"></div>
-                </div> <!-- lexCtrl ng-controller -->
-            </div> <!-- segment -->
-        </div>
-    </div> <!-- list item -->
-</div> <!-- ui list -->
+                </div> <!-- segment -->
+            </div>
+        </div> <!-- list item -->
+    </div> <!-- ui list -->
+</div> <!-- if false -->
