@@ -2,7 +2,7 @@
 //
 // ao 2015-02-15
 
-app.controller("lexCtrl", function($scope,$http) {
+app.controller("lexCtrl", function($scope,$http,LexMaster) {
 
     var that=this;
     
@@ -28,15 +28,25 @@ app.controller("lexCtrl", function($scope,$http) {
         $scope.$emit('retarget',newLexId);
     };
     
-    // fetch complete lex
     $scope.fetchLex = function(id) {
-        console.log('scope '+$scope.$id+' fetching lex #'+id);
-        $http.get("/reqage/api/lex/"+id)
-            .success(function(response) {
-                $scope.myLex = response;
-            that.complete = true;
-        });
-    };
+        LexMaster.updateMe($scope,id);
+    }
+    
+    $scope.updateLex = function(lex) {
+        console.log('scope '+$scope.$id+' got lex info from LexMaster');
+        $scope.myLex = lex;
+    }
+    
+    // fetch complete lex
+//     $scope.fetchLex = function(id) {
+//         console.log('scope '+$scope.$id+' fetching lex #'+id);
+//         $http.get("/reqage/api/lex/"+id)
+//             .success(function(response) {
+//                 $scope.myLex = response;
+//             that.complete = true;
+//         });
+//         LexMaster.updateMe(that,id);
+//     };
         
     $scope.setTop = function(id) {
         console.log('scope '+$scope.$id+' is top level');
