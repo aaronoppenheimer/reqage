@@ -11,14 +11,21 @@
     </div> <!-- icon column -->
     <div class="left aligned fifteen wide column" style="padding-left:0;">
         {{ myLex.content }}
+        <span ng-if="!isTopLevel"
+            <a ng-href='#here' ng-click='retarget(myLex.pk)' ><i class="crosshairs icon"></i></a>
+        </span>
+        <span ng-if="myLex.parent_info && isTopLevel">
+            <a ng-href='#here' ng-click='retarget(myLex.parent_info.id)'><i class="level up icon"></i></a>
+        </span>
         <span ng-if="!showingInfo">
             <a ng-href='#here' ng-click='toggleInfo()' ><i class="info circle icon"></i></a>
         </span>
         <div class="ui segment "ng-if="showingInfo">
-            <a ng-href='#here' ng-click='retarget(myLex.pk)' ><i class="crosshairs icon"></i></a>
-            <span ng-if="myLex.parent_info">
-                <a ng-href='#here' ng-click='retarget(myLex.parent_info.id)'><i class="level up icon"></i></a>
-            </span>
+            <div class="ui top attached label">
+                <a ng-href='#here' ng-click='toggleInfo()' ><i class="remove circle icon"></i></a>
+            </div> <!-- label -->
+            <p>
+            <table class="ui table">
         </div>
         <div class="ui list" ng-if="isOpen">
             <div class="item" ng-repeat="myChildLex in myLex.children_info" ng-controller="lexCtrl" ng-init="fetchLex(myChildLex.id)">

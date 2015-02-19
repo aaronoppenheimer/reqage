@@ -6,6 +6,8 @@ app.controller("lexCtrl", function($scope,$http) {
 
     var that=this;
     
+    $scope.isTopLevel = false;
+    
 //     $scope.lexId = null;
     $scope.myLex = null; // my current lex
     complete = false;
@@ -38,6 +40,7 @@ app.controller("lexCtrl", function($scope,$http) {
         
     $scope.setTop = function(id) {
         console.log('scope '+$scope.$id+' is top level');
+        $scope.isTopLevel = true;
         $scope.$on('retarget', function(event, data) { $scope.fetchLex(data); });
         $scope.fetchLex(id);
     }
