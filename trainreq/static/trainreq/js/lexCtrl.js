@@ -8,9 +8,7 @@ app.controller("lexCtrl", function($scope,$http,LexMaster) {
     
     $scope.isTopLevel = false;
     
-//     $scope.lexId = null;
     $scope.myLex = null; // my current lex
-    complete = false;
 
     $scope.isOpen = false; // whether to display myself as open or not    
     $scope.toggleOpen = function() {
@@ -36,43 +34,16 @@ app.controller("lexCtrl", function($scope,$http,LexMaster) {
         console.log('scope '+$scope.$id+' got lex info from LexMaster');
         $scope.myLex = lex;
     }
-    
-    // fetch complete lex
-//     $scope.fetchLex = function(id) {
-//         console.log('scope '+$scope.$id+' fetching lex #'+id);
-//         $http.get("/reqage/api/lex/"+id)
-//             .success(function(response) {
-//                 $scope.myLex = response;
-//             that.complete = true;
-//         });
-//         LexMaster.updateMe(that,id);
-//     };
-        
+            
     $scope.setTop = function(id) {
         console.log('scope '+$scope.$id+' is top level');
         $scope.isTopLevel = true;
         $scope.$on('retarget', function(event, data) { $scope.fetchLex(data); });
         $scope.fetchLex(id);
     }
-        
-    init = function() {
-//         console.log('scope '+$scope.$id+' has lexId '+$scope.lexId);
-//         if ($scope.lexId) {
-//             $scope.fetchLex($scope.lexId);
-//             // I'm not the highest level so I shouldn't listen to re-targeting messages
-//         } else {
-//             // we haven't been given a lexId, so we should use the global one
-//             if (appLexId) {
-//                 console.log('scope '+$scope.$id+' is highest level');
-//                 $scope.fetchLex(appLexId);
-//                 // I'm the highest level lex, so I listen for re-targeting
-//                 $scope.$on('retarget', function(event, data) { $scope.fetchLex(data); });
-//             } else {
-//                 alert('no lex id set');
-//             }
-//         }
-    };
     
-    init();
-    
+    $scope.$on('$destroy', function iVeBeenDismissed() {
+        LexMaster.stopUpdatingMe($scope, $scope.myLex.pk);
+        console.log('scope '+$scope.$id+' destroyed');
+    });
 });
