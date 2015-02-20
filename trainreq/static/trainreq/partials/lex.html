@@ -11,7 +11,7 @@
     </div> <!-- icon column -->
     <div class="left aligned fifteen wide column" style="padding-left:0;">
         {{ myLex.content }}
-        <span ng-if="!isTopLevel"
+        <span ng-if="!isTopLevel">
             <a ng-href='#here' ng-click='retarget(myLex.pk)' ><i class="crosshairs icon"></i></a>
         </span>
         <span ng-if="myLex.parent_info && isTopLevel">
@@ -20,7 +20,7 @@
         <span ng-if="!showingInfo">
             <a ng-href='#here' ng-click='toggleInfo()' ><i class="info circle icon"></i></a>
         </span>
-        <div class="ui segment "ng-if="showingInfo">
+        <div class="ui segment" ng-if="showingInfo">
             <div class="ui top attached label">
                 <a ng-href='#here' ng-click='toggleInfo()' ><i class="remove circle icon"></i></a>
             </div> <!-- label -->

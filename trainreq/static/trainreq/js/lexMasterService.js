@@ -13,22 +13,18 @@ app.service('LexMaster', function ($http) {
                 list = interestList[id];
                 for (i=0; i< list.length; i++) {
                     obj = list[i]
-                    console.log('telling scope '+obj.$id);
                     obj.updateLex(theLexes[id])
                 }
             }
         } else {
             // we don't have it - go get it.
-            console.log('LexMaster cache miss - going to fetch #'+id);
             fetchLex(id);
         }            
     }
 
     fetchLex = function(theLexId) {
-        console.log('LexMaster fetching lex #'+theLexId);
         $http.get("/reqage/api/lex/"+theLexId)
             .success(function(response) {
-                console.log('LexMaster received lex '+response.pk);
                 theLexes[response.pk] = response;
                 updateInteresteds(response.pk);
         });
@@ -43,7 +39,6 @@ app.service('LexMaster', function ($http) {
                     } else {
                         interestList[theLexId] = [object];
                     }
-                    console.log('LexMaster added object watching lex '+theLexId);
 
                     updateInteresteds(theLexId);
                 },
@@ -54,7 +49,6 @@ app.service('LexMaster', function ($http) {
                             interestList[theLexId].splice(i, 1);
                         }
                     }
-                    console.log('LexMaster removed object watching lex '+theLexId);
                 }
         };  
 });
