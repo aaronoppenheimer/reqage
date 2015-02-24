@@ -1,0 +1,17 @@
+<div class="row" ng-controller="addLexCtrl" style="padding:0; z-index:10;"
+    ng-mouseenter="show()" ng-mouseleave="hide()">
+    <div class="right aligned one wide column" style="padding:0; height:25px"></div>
+    <div class="left aligned fifteen wide column" style="padding-left:0">
+        <div ng-show="isVisible && !isActive">
+            <button class="mini ui button" ng-click="makeActive()">insert</button>
+        </div>
+        <div ng-show="isActive">
+            <div class="ui segment">
+                New:
+                <input type="text" ng-model='newThing'></input>
+                <button class="mini ui button" ng-click="submit(myChildLex.id)">submit</button>
+                <button class="mini ui button" ng-click="makeInactive()">cancel</button>
+            </div> <!-- segment -->
+        </div>
+    </div>
+</div> <!-- row -->

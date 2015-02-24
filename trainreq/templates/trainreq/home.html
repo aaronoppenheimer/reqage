@@ -39,11 +39,15 @@
 {% verbatim %}
 
 <div ng-app="trainreqApp">
-    <div class="ui grid">
+    <div class="ui page grid">
         <div class="two wide column"></div>
         <div class="twelve wide column" id="content">
             <div ng-controller="lexCtrl" ng-init="setTop(14)">
-                <div ng-include="'/static/trainreq/partials/lex.html'"></div>
+                <div class="ui grid" ng-mouseenter="mouseEnter()" ng-mouseleave="mouseLeave()">           
+                    <div class="row">
+                        <div ng-include="'/static/trainreq/partials/lex.html'" include-replace></div>
+                    </div>
+                </div>
             </div>
         </div> <!-- column -->
         <div class="two wide column"></div>
@@ -54,6 +58,7 @@
 <script src="{% static 'trainreq/js/trainreqApp.js' %}"></script>
 <script src="{% static 'trainreq/js/lexMasterService.js' %}"></script>
 <script src="{% static 'trainreq/js/lexCtrl.js' %}"></script>
+<script src="{% static 'trainreq/js/addLexCtrl.js' %}"></script>
 <script>
     $('.ui.accordion').accordion();
 </script>

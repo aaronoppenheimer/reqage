@@ -49,6 +49,9 @@ app.service('LexMaster', function ($http) {
                             interestList[theLexId].splice(i, 1);
                         }
                     }
+                },
+                addedChild : function(objectId) {
+                    fetchLex(objectId);
                 }
         };  
 });

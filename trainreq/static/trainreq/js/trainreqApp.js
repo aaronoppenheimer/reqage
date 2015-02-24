@@ -8,6 +8,16 @@ app.config(['$httpProvider', function($httpProvider) {
 app.value("appLexId",14);
 
 
+app.directive('includeReplace', function () {
+    return {
+        require: 'ngInclude',
+        restrict: 'A', /* optional */
+        link: function (scope, el, attrs) {
+            el.replaceWith(el.children());
+        }
+    };
+});
+
 // service to hold the current to-level lex
 // app.service('CurrentLex', function ($http) {
 //     //     Just hold the current Lex so anyone who needs it can get it

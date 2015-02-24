@@ -20,9 +20,30 @@ app.controller("lexCtrl", function($scope,$http,LexMaster) {
         $scope.showingInfo = !$scope.showingInfo;
     };
 
+
+    $scope.mouseIsOver = false;
+    $scope.mouseEnter = function() {
+        $scope.mouseIsOver = true;
+    };
+    $scope.mouseLeave = function() {
+        $scope.mouseIsOver = false;
+    };
+
     // if we need to change the top-level lex, use the emit structure
     $scope.retarget = function(newLexId) {
         $scope.$emit('retarget',newLexId);
+    };
+    
+    $scope.remove = function() {
+        parent=$scope.myLex.parent_info.id;
+        data={};
+        data['pk'] = $scope.myLex.pk;
+        //submit the data to the server
+        $http.delete('/reqage/api/lex/'+$scope.myLex.pk, data)
+        .success(function(response) {
+            LexMaster.addedChild(parent);
+        });
+        
     };
     
     $scope.fetchLex = function(id) {

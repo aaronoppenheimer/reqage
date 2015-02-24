@@ -12,19 +12,17 @@ from django.contrib.auth.models import User
 class LexSerializer(serializers.ModelSerializer):
     created_by = serializers.ReadOnlyField(source='created_by.username')
 #     children = serializers.ListField()
-    parent = serializers.IntegerField(write_only=True)
+    sibling = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Lex
-        fields = ('pk', 'lextype', 'content', 'parent', 'parent_info', 'children_info', 'created_by')
+        fields = ('pk', 'lextype', 'content', 'sibling', 'parent_info', 'children_info', 'created_by')
 
     # we need a special create override so we make the proper root DocThing object
     def create(self, validated_data):
     
         # save the parent's pk
-        pnum=validated_data.get('parent', 0)
-
-        print('parent is >{0}<'.format(validated_data))
+        pnum=validated_data.get('sibling', 0)
 
         if pnum>0:
             p = Lex.objects.get(pk=pnum)
@@ -37,12 +35,14 @@ class LexSerializer(serializers.ModelSerializer):
         theclass=getattr(reqage.models,lextype)
 
         # create the new object (but remove the parent's key because it's not meaningful)
-        validated_data.pop('parent', None)
+        validated_data.pop('sibling', None)
         d=theclass.objects.create(**validated_data)
 
         if p is not None:
             # move the object's docthing to the proper parent
-            d.docthing.move(p.docthing,'last-child')
+            d.docthing.move(p.docthing,'right')
+
+        d=Lex.objects.get(pk=d.pk)
 
         return d
 

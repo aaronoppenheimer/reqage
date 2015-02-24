@@ -1,39 +1,44 @@
-<div class="ui grid">
-    <div class="right aligned one wide column" style="padding-right:0;">
-        <span ng-if="myLex.children_info.length">
-            <span ng-if="!isOpen">
-                <a href="#" ng-click="toggleOpen()"><i class="caret right icon"></i></a>
-            </span>
-            <span ng-if="isOpen">
-                <a href="#" ng-click="toggleOpen()"><i class="caret down icon"></i></a>
-            </span>
+<div class="right aligned one wide column">
+    <span ng-if="myLex.children_info.length">
+        <span ng-if="!isOpen">
+            <a href="#" ng-click="toggleOpen()"><i class="caret right icon"></i></a>
         </span>
-    </div> <!-- icon column -->
-    <div class="left aligned fifteen wide column" style="padding-left:0;">
-        {{ myLex.content }}
-        <span ng-if="!isTopLevel">
-            <a ng-href='#here' ng-click='retarget(myLex.pk)' ><i class="crosshairs icon"></i></a>
+        <span ng-if="isOpen">
+            <a href="#" ng-click="toggleOpen()"><i class="caret down icon"></i></a>
         </span>
-        <span ng-if="myLex.parent_info && isTopLevel">
-            <a ng-href='#here' ng-click='retarget(myLex.parent_info.id)'><i class="level up icon"></i></a>
-        </span>
-        <span ng-if="!showingInfo">
-            <a ng-href='#here' ng-click='toggleInfo()' ><i class="info circle icon"></i></a>
-        </span>
-        <div class="ui segment" ng-if="showingInfo">
-            <div class="ui top attached label">
-                <a ng-href='#here' ng-click='toggleInfo()' ><i class="remove circle icon"></i></a>
-            </div> <!-- label -->
-            <p>
-            Here is some info!
+    </span>
+</div> <!-- icon column -->
+<div class="left aligned fifteen wide column" style="padding-left:0;">
+    {{ myLex.content }} ({{ myLex.pk }})
+    <span ng-if="!isTopLevel">
+        <a ng-href='#here' ng-click='retarget(myLex.pk)' ><i class="crosshairs icon"></i></a>
+    </span>
+    <span ng-if="myLex.parent_info && isTopLevel">
+        <a ng-href='#here' ng-click='retarget(myLex.parent_info.id)'><i class="level up icon"></i></a>
+    </span>
+    <span ng-if="myLex.parent_info">
+        <a ng-href='#here' ng-click='remove()'><i class="remove icon"></i></a>
+    </span>
+    <span ng-if="!showingInfo">
+        <a ng-href='#here' ng-click='toggleInfo()' ><i class="info circle icon"></i></a>
+    </span>
+    <div class="ui segment" ng-if="showingInfo">
+        <div class="ui top attached label">
+            <a ng-href='#here' ng-click='toggleInfo()' ><i class="remove circle icon"></i></a>
+        </div> <!-- label -->
+        <p>
+        Here is some info!
+    </div>
+    <div class="ui grid" ng-if="isOpen" style="margin-top:0rem; margin-bottom:0rem">
+        <div class="row" ng-repeat-start="myChildLex in myLex.children_info" ng-controller="lexCtrl" 
+            ng-init="fetchLex(myChildLex.id)" ng-mouseenter="mouseEnter()" ng-mouseleave="mouseLeave()"
+            style="padding-top:0rem; padding-bottom:0rem;">
+            <div ng-include="'/static/trainreq/partials/lex.html'" include-replace></div>
         </div>
-        <div class="ui list" ng-if="isOpen">
-            <div class="item" ng-repeat="myChildLex in myLex.children_info" ng-controller="lexCtrl" ng-init="fetchLex(myChildLex.id)">
-                <div ng-include="'/static/trainreq/partials/lex.html'"></div>
-            </div> <!-- list item -->
-        </div> <!-- ui list -->
-    </div> <!-- content column -->
-</div> <!-- grid -->
+        <div ng-include="'/static/trainreq/partials/addLex.html'" include-replace></div>
+        <div ng-repeat-end></div>
+    </div> <!-- grid -->
+</div> <!-- content column -->
 
 
 <div ng-if='false'>
