@@ -13,21 +13,29 @@ class LexSerializer(serializers.ModelSerializer):
     created_by = serializers.ReadOnlyField(source='created_by.username')
 #     children = serializers.ListField()
     sibling = serializers.IntegerField(write_only=True)
+    parent = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Lex
-        fields = ('pk', 'lextype', 'content', 'sibling', 'parent_info', 'children_info', 'created_by')
+        fields = ('pk', 'lextype', 'content', 'sibling', 'parent', 'parent_info', 'children_info', 'created_by')
 
     # we need a special create override so we make the proper root DocThing object
     def create(self, validated_data):
     
         # save the parent's pk
+        is_sibling=False
         pnum=validated_data.get('sibling', 0)
-
+        p = None
+        
         if pnum>0:
+            is_sibling=True
+            print('making a sibling');
             p = Lex.objects.get(pk=pnum)
         else:
-            p = None
+            pnum=validated_data.get('parent', 0)
+            if pnum>0:
+                print('making a child');
+                p = Lex.objects.get(pk=pnum)
 
         # figure out what the lextype is and get the class
         lextype=validated_data.get('lextype') # TODO - make sure it's a valid type
@@ -35,12 +43,19 @@ class LexSerializer(serializers.ModelSerializer):
         theclass=getattr(reqage.models,lextype)
 
         # create the new object (but remove the parent's key because it's not meaningful)
-        validated_data.pop('sibling', None)
+        if 'sibling' in validated_data:
+                validated_data.pop('sibling', None)
+        if 'parent' in validated_data:
+            validated_data.pop('parent', None)
+
         d=theclass.objects.create(**validated_data)
 
         if p is not None:
             # move the object's docthing to the proper parent
-            d.docthing.move(p.docthing,'right')
+            if is_sibling:
+                d.docthing.move(p.docthing,'right')
+            else:
+                d.docthing.move(p.docthing,'first-child')
 
         d=Lex.objects.get(pk=d.pk)
 

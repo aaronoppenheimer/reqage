@@ -3,13 +3,22 @@
     <div class="right aligned one wide column" style="padding:0; height:25px"></div>
     <div class="left aligned fifteen wide column" style="padding-left:0">
         <div ng-show="isVisible && !isActive">
-            <button class="mini ui button" ng-click="makeActive()">insert</button>
+            <button class="mini ui button" ng-click="makeSibling()">+sibling</button>
+            <button class="mini ui button" ng-click="makeChild()">+child</button>
         </div>
-        <div ng-show="isActive">
+        <div ng-show="isActiveSibling">
             <div class="ui segment">
-                New:
+                New Sibling:
                 <input type="text" ng-model='newThing'></input>
-                <button class="mini ui button" ng-click="submit(myChildLex.id)">submit</button>
+                <button class="mini ui button" ng-click="submitSibling(myChildLex.id)">submit</button>
+                <button class="mini ui button" ng-click="makeInactive()">cancel</button>
+            </div> <!-- segment -->
+        </div>
+        <div ng-show="isActiveChild">
+            <div class="ui segment">
+                New Child:
+                <input type="text" ng-model='newThing'></input>
+                <button class="mini ui button" ng-click="submitChild(myChildLex.id)">submit</button>
                 <button class="mini ui button" ng-click="makeInactive()">cancel</button>
             </div> <!-- segment -->
         </div>

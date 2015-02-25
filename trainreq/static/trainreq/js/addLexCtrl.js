@@ -14,19 +14,31 @@ app.controller('addLexCtrl', function($scope,$http,LexMaster) {
     };    
     
     $scope.isActive=false;
-    $scope.makeActive=function() {
+    $scope.isActiveChild=false;
+    $scope.isActiveSibling=false;    
+    $scope.makeSibling=function() {
         $scope.isActive = true;
+        $scope.isActiveSibling = true;
+        $scope.isActiveChild = false;
+    }; 
+    $scope.makeChild=function() {
+        $scope.isActive = true;
+        $scope.isActiveSibling = false;
+        $scope.isActiveChild = true;
     }; 
     $scope.makeInactive=function() {
         $scope.isActive = false;
+        $scope.isActiveSibling = false;
+        $scope.isActiveChild = false;
     }; 
     
     $scope.newThing = '';
-    $scope.submit = function(sibling) {
+    $scope.submitSibling = function(sibling) {
     
         data={};
         data['content'] = $scope.newThing;
         data['sibling'] = sibling;
+        data['parent'] = 0;
         data['lextype'] = 'Requirement';
         //submit the data to the server
         $http.post('/reqage/api/lex/', data)
@@ -35,8 +47,26 @@ app.controller('addLexCtrl', function($scope,$http,LexMaster) {
         });
     
         $scope.newThing='';
-        $scope.isActive=false;
+        $scope.makeInactive();
     }
+
+    $scope.submitChild = function(parent) {
+    
+        data={};
+        data['content'] = $scope.newThing;
+        data['parent'] = parent;
+        data['sibling'] = 0;
+        data['lextype'] = 'Requirement';
+        //submit the data to the server
+        $http.post('/reqage/api/lex/', data)
+        .success(function(response) {
+            LexMaster.addedChild(response.parent_info.id);
+        });
+    
+        $scope.newThing='';
+        $scope.makeInactive();
+    }
+
 //   this.submit = function(isValid, data) {
 //     if(!isValid) return;
 // 
