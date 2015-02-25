@@ -59,7 +59,15 @@ class Lex(TimeStampedModel):
         if new:
             docthing = DocThing.add_root(lex=self)
             docthing.save()
-    
+
+    def delete(self, *args, **kwargs):
+        """ when we delete a lex, make sure to delete the associated docthing and children """
+        print('deleting a lex')
+        children=self.docthing.get_children()
+        for c in children:
+            c.lex.delete(*args, **kwargs)
+        super(Lex,self).delete(*args, **kwargs)
+                
 class Project(Lex):
     """ Class to hold a Project """
     pass
