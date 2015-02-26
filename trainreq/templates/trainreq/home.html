@@ -23,8 +23,8 @@
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
     <script src="{% static 'trainreq/semantic/semantic.js'%}"></script>
-
-<!-- 
+    <script src="{% static 'trainreq/Sortable/Sortable.min.js'%}"></script>
+  <!-- 
     <script src="{% static 'trainreq/angular/angular.min.js'%}"></script>
     <script src="{% static 'trainreq/angular-route/angular-route.js'%}"></script>
     <script src="{% static 'trainreq/angular-cookies/angular-cookies.js'%}"></script>
@@ -33,6 +33,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-route.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-cookies.js"></script>
+    <script src="{% static 'trainreq/Sortable/ng-sortable.js'%}"></script>
 </head>
 
 <body>
@@ -43,8 +44,8 @@
         <div class="two wide column"></div>
         <div class="twelve wide column" id="content">
             <div ng-controller="lexCtrl" ng-init="setTop(14)">
-                <div class="ui grid" ng-mouseenter="mouseEnter()" ng-mouseleave="mouseLeave()">           
-                    <div class="row">
+                <div id="sortable-list" ng-sortable class="ui grid list-group" ng-mouseenter="mouseEnter()" ng-mouseleave="mouseLeave()">           
+                    <div class="row list-group-item">
                         <div ng-include="'/static/trainreq/partials/lex.html'" include-replace></div>
                     </div>
                 </div>
@@ -60,7 +61,13 @@
 <script src="{% static 'trainreq/js/lexCtrl.js' %}"></script>
 <script src="{% static 'trainreq/js/addLexCtrl.js' %}"></script>
 <script>
-    $('.ui.accordion').accordion();
+
+    window.onload = function() {
+        $('.ui.accordion').accordion();
+        Sortable.create(document.getElementById('sortable-list'), { 
+            handle: ".move-handle",
+         });    
+    }
 </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <div class="right aligned one wide column">
+    <i class="move icon move-handle" ng-if="!isTopLevel"></i>
     <span ng-if="myLex.children_info.length">
         <span ng-if="!isOpen">
             <a href="#" ng-click="toggleOpen()"><i class="caret right icon"></i></a>
@@ -30,7 +31,7 @@
         Here is some info!
     </div>
     <div class="ui grid" ng-if="isOpen" style="margin-top:0rem; margin-bottom:0rem">
-        <div class="row" ng-repeat-start="myChildLex in myLex.children_info" ng-controller="lexCtrl" 
+        <div class="row list-group-item" ng-sortable ng-repeat-start="myChildLex in myLex.children_info" ng-controller="lexCtrl" 
             ng-init="fetchLex(myChildLex.id)" ng-mouseenter="mouseEnter()" ng-mouseleave="mouseLeave()"
             style="padding-top:0rem; padding-bottom:0rem;">
             <div ng-include="'/static/trainreq/partials/lex.html'" include-replace></div>
